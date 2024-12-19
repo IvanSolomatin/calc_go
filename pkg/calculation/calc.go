@@ -7,10 +7,24 @@ import (
 	"strconv"
 )
 
+
+
 func Calc(expression string) (float64, error) {
 	if len(expression) == 0 {
 		return 0, ErrEmptyExpression
 	}
+
+	var containsValidChars bool
+	for _, char := range expression {
+		if (char >= '0' && char <= '9') || char == '+' || char == '-' || char == '*' || char == '/' {
+			containsValidChars = true
+			break
+		}
+	}
+	if !containsValidChars {
+		return 0, ErrInvalidExpression
+	}
+
 	var err error
 	var res float64
 	var buf string
@@ -100,7 +114,6 @@ func Calc(expression string) (float64, error) {
 				x = x1 + x2
 			case "-":
 				x = x1 - x2
-
 			}
 			result.PushBack(x)
 		}
