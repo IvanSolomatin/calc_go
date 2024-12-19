@@ -9,8 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
-
-	calc "github.com/IvanSolomatin/calc_go/pkg/calculation"
+	"github.com/IvanSolomatin/calc_go/pkg/calculation"
 )
 
 type Config struct {
