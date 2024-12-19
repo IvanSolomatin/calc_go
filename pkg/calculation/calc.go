@@ -8,8 +8,8 @@ import (
 )
 
 func Calc(expression string) (float64, error) {
-    if len(expression) == 0{
-		return 0, errors.New("")
+	if len(expression) == 0 {
+		return 0, ErrEmptyExpression
 	}
 	var err error
 	var res float64
@@ -17,7 +17,7 @@ func Calc(expression string) (float64, error) {
 	l := list.New()
 	var i string
 	for _, x := range expression {
-        i = string(x)
+		i = string(x)
 		if i == "(" || i == ")" || i == "-" || i == "+" || i == "*" || i == "/" {
 			res, err = strconv.ParseFloat(buf, 64)
 			if err == nil {
@@ -80,7 +80,7 @@ func Calc(expression string) (float64, error) {
 			result.PushBack(e.Value)
 		} else {
 			if result.Len() < 2 {
-				return 0, errors.New("wrong expression")
+				return 0, ErrInvalidExpression
 			}
 			x2 := result.Back().Value.(float64)
 			result.Remove(result.Back())
@@ -88,13 +88,12 @@ func Calc(expression string) (float64, error) {
 			result.Remove(result.Back())
 			var x float64
 
-			
 			switch e.Value {
 			case "*":
 				x = x1 * x2
 			case "/":
 				if x2 == 0 {
-					return 0, errors.New("division by zero")
+					return 0, ErrDivisionByZero
 				}
 				x = x1 / x2
 			case "+":
@@ -109,5 +108,3 @@ func Calc(expression string) (float64, error) {
 
 	return result.Back().Value.(float64), nil
 }
-
-

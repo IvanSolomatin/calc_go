@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/IvanSolomatin/calc_go/pkg/calculation"
+	calc "github.com/IvanSolomatin/calc_go/pkg/calculation"
 )
 
 type Config struct {
@@ -92,6 +92,6 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func (a *Application) RunServer() error {
-	http.HandleFunc("/", CalcHandler)
+	http.HandleFunc("/api/v1/calculate", CalcHandler)
 	return http.ListenAndServe(":"+a.config.Addr, nil)
 }
