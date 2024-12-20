@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+
 	"github.com/IvanSolomatin/calc_go/pkg/calculation"
 )
 
@@ -16,7 +17,7 @@ type Config struct {
 	Addr string
 }
 
-func ConfigFromEnv() *Config {
+func ConfigFromEnv() *Config { //запускаем в соответствии с Config, а если его нет, то порт 8080
 	config := new(Config)
 	config.Addr = os.Getenv("PORT")
 	if config.Addr == "" {
@@ -78,8 +79,12 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	result, err := calc.Calc(request.Expression)
-	if err != nil {
+	if err != nil { // обработка ошибок
 		if errors.Is(err, calc.ErrInvalidExpression) {
+			fmt.Fprintf(w, "err: %s", err.Error())
+		} else if errors.Is(err, calc.ErrDivisionByZero) {
+			fmt.Fprintf(w, "err: %s", err.Error())
+		} else if errors.Is(err, calc.ErrEmptyExpression) {
 			fmt.Fprintf(w, "err: %s", err.Error())
 		} else {
 			fmt.Fprintf(w, "unknown err")

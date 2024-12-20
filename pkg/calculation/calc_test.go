@@ -52,17 +52,17 @@ func TestCalc(t *testing.T) {
 		expectedErr error
 	}{
 		{
-			name:        "simple_missing_operator",
+			name:        "invalid_operator",
 			expression:  "1+1*",
 			expectedErr: calc.ErrInvalidExpression,
 		},
 		{
-			name:        "priority_invalid_operator",
+			name:        "invalid_operator",
 			expression:  "2+2**2",
 			expectedErr: calc.ErrInvalidExpression,
 		},
 		{
-			name:        "priority_invalid_parentheses",
+			name:        "invalid_parentheses",
 			expression:  "((2+2-*(2",
 			expectedErr: calc.ErrInvalidExpression,
 		},

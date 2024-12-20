@@ -1,0 +1,1 @@
+set "PORT=8087" & "main.exe"
