@@ -24,57 +24,55 @@ go get github.com/IvanSolomatin/calc_go/internal/application
 2. Установите [Git](https://git-scm.com/downloads).
 3. Склонируйте проект с GitHub используя командную строку:
     git clone https://github.com/IvanSolomatin/calc_go
-4. Перейдите в папку проекта и запустите сервер(calc_go):
+4. Перейдите в папку (calc_go) проекта, выполните команду:
 
-    go run ./calc_go/cmd/main.go
+    go mod tidy
+5. запустите сервер:
+
+    go run ./cmd/main.go
     
-5. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
+6. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
 
-### Как сменить порт?
-1. вместо go run ./calc_go/cmd/main.go используй set "PORT=8087" & "go run ./calc_go/cmd/main.go"
+### Как сменить порт (для Windiws)?
+1. Для этого нужно собрать [Your_name].exe 
+2. Перейдите в папку (calc_go/cmd) проекта
+3. выполните команды
+
+go build -o calc.exe 
+
+set "PORT=8087" & "main.exe" (в примере порт = 8087)
 
 ## Эндпоинты
-
 ### `POST /api/v1/calculate`
 
 #### Описание
 Эндпоинт принимает JSON с математическим выражением.
 
-#### Пример запроса с использованием PowerShell
+#### Пример запроса с использованием curl
+пример для cmd
 
-```powershell
-Invoke-RestMethod -Uri "http://localhost:8080/api/v1/calculate" `
--Method POST `
--Headers @{"Content-Type"="application/json"} `
--Body '{"expression": "2+2*2"}'
-Пример успешного ответа
-json
-Копировать код
-{
-  "result": "6.000000"
-}
-Пример ошибки 500
-Если выражение содержит некорректный символ $, сервер вернёт ошибку 500:
+curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1\"}" 
+(пример корректного запроса, код:200)
 
-Пример запроса
-powershell
-Копировать код
-Invoke-RestMethod -Uri "http://localhost:8080/api/v1/calculate" `
--Method POST `
--Headers @{"Content-Type"="application/json"} `
--Body '{"expression": "1+$2"}'
-Пример ответа
-json
-Копировать код
-{
-  "error": "Некорректное выражение"
-}
-Тестирование
-Для запуска тестов выполните:
+git bash
 
-bash
-Копировать код
-go test ./...
-Примечания
-Для работы API требуется установленный Go (версии 1.18 и выше).
-Все зависимости проекта управляются через go mod. Убедитесь, что в корне проекта находятся go.mod и go.sum.
+curl --location 'localhost:8080/api/v1/calculate' \
+--header 'Content-Type: application/json' \
+--data '{
+  "expression": "2+2*2"
+}'
+
+curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"\"}" 
+(пример запроса с пустым выражением, код: 422, ошибка:empty expression)
+
+curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1/0\"}" 
+(пример запроса с делением на 0, код: 422, ошибка:division by zero)
+
+curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1++*2\"}" 
+(пример запроса с неверным выражением, код: 422, ошибка:invalid expression)
+
+#### Команды для тестирования
+перейдите в каталог aplication или pkg\calculation и выполните команду 
+
+go test -v
+
