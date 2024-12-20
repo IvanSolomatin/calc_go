@@ -1,3 +1,3 @@
-module calc_go
+module github.com/IvanSolomatin/calc_go
 
 go 1.23.1

@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"calc_go/aplication"
-	"calc_go/pkg/calculation"
+	"github.com/IvanSolomatin/calc_go/aplication"
+	"github.com/IvanSolomatin/calc_go/pkg/calculation"
 )
 
 
