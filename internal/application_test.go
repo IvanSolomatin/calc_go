@@ -6,9 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/IvanSolomatin/calc_go/internal/application"
-	"github.com/IvanSolomatin/calc_go/pkg/calculation"
+	"calc/internal/application"
+	"calc/pkg/calculation"
 )
 
 // структура запроса

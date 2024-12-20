@@ -2,7 +2,7 @@ set "PORT=8087" & "main.exe"
 curl -X POST http://localhost:8080/api/v1/calculate -d "{\"expression\": \"1\"}"
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1\"}"
 400 [HTTP] 2024/12/20 18:52:45 aplication.go:80: Bad Request: invalid character '\r' in string literal
-
+go get github.com/IvanSolomatin/calc_go/internal/application
 
 
 
@@ -21,15 +21,14 @@ curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: applicatio
 ## Запуск
 
 1. Установите [Go](https://go.dev/dl/).
-2. Склонируйте проект с GitHub:
-    ```bash
-    git clone https://github.com/your-username/calc_service.git
-    ```
-3. Перейдите в папку проекта и запустите сервер:
-    ```bash
-    go run ./cmd/calc_service/...
-    ```
-4. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
+2. Установите [Git](https://git-scm.com/downloads).
+3. Склонируйте проект с GitHub используя командную строку:
+    git clone https://github.com/IvanSolomatin/calc_go
+4. Перейдите в папку проекта и запустите сервер(calc_go):
+
+    go run ./cmd/main.go
+    
+5. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
 
 ### Альтернативный запуск
 Вы можете использовать скрипты для сборки и запуска:
