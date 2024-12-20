@@ -57,12 +57,15 @@ curl --location 'localhost:8080/api/v1/calculate' \
 }'
 
 Пример запроса с пустым выражением, код: 422, ошибка:empty expression
+
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"\"}" 
 
 Пример запроса с делением на 0, код: 422, ошибка:division by zero
+
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1/0\"}" 
 
 Пример запроса с неверным выражением, код: 422, ошибка:invalid expression
+
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1++*2\"}" 
 
 
