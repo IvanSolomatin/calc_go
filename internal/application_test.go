@@ -8,7 +8,7 @@ import (
 	"testing"
 
 	"github.com/IvanSolomatin/calc_go/internal/application"
-	calc "github.com/IvanSolomatin/calc_go/pkg/calculation"
+	"github.com/IvanSolomatin/calc_go/pkg/calculation"
 )
 
 // структура запроса
