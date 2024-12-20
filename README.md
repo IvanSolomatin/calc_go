@@ -30,16 +30,8 @@ go get github.com/IvanSolomatin/calc_go/internal/application
     
 5. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
 
-### Альтернативный запуск
-Вы можете использовать скрипты для сборки и запуска:
-- **Для Linux/MacOS:**
-    ```bash
-    ./build/build.sh
-    ```
-- **Для Windows:**
-    ```powershell
-    .\build\build.bat
-    ```
+### Как сменить порт?
+1. вместо go run ./calc_go/cmd/main.go используй set "PORT=8087" & "go run ./calc_go/cmd/main.go"
 
 ## Эндпоинты
 
