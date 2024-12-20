@@ -1,9 +1,3 @@
-set "PORT=8087" & "main.exe"
-curl -X POST http://localhost:8080/api/v1/calculate -d "{\"expression\": \"1\"}"
-curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1\"}"
-400 [HTTP] 2024/12/20 18:52:45 aplication.go:80: Bad Request: invalid character '\r' in string literal
-go get github.com/IvanSolomatin/calc_go/internal/application
-
 
 
 # Веб-сервис для вычисления арифметических выражений
@@ -68,7 +62,7 @@ curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: applicatio
 
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1++*2\"}" 
 
-
+## Для запросов можно использовать программу postman
 
 #### Команды для тестирования
 перейдите в каталог aplication или pkg\calculation и выполните команду 
