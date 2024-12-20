@@ -17,7 +17,7 @@ type Config struct {
 	Addr string
 }
 
-func ConfigFromEnv() *Config { //запускаем в соответствии с Config, а если его нет, то порт 8080
+func ConfigFromEnv() *Config {
 	config := new(Config)
 	config.Addr = os.Getenv("PORT")
 	if config.Addr == "" {
@@ -28,39 +28,35 @@ func ConfigFromEnv() *Config { //запускаем в соответствии 
 
 type Application struct {
 	config *Config
+	logger *log.Logger
 }
 
 func New() *Application {
 	return &Application{
 		config: ConfigFromEnv(),
+		logger: log.New(os.Stdout, "[APP] ", log.Ldate|log.Ltime|log.Lshortfile),
 	}
 }
 
-// Функция запуска приложения
-// тут будем чиать введенную строку и после нажатия ENTER писать результат работы программы на экране
-// если пользователь ввел exit - то останаваливаем приложение
 func (a *Application) Run() error {
 	for {
-		// читаем выражение для вычисления из командной строки
-		log.Println("input expression")
+		a.logger.Println("Input expression:")
 		reader := bufio.NewReader(os.Stdin)
 		text, err := reader.ReadString('\n')
 		if err != nil {
-			log.Println("failed to read expression from console")
+			a.logger.Println("Failed to read expression from console")
+			continue
 		}
-		// убираем пробелы, чтобы оставить только вычислемое выражение
 		text = strings.TrimSpace(text)
-		// выходим, если ввели команду "exit"
 		if text == "exit" {
-			log.Println("aplication was successfully closed")
+			a.logger.Println("Application was successfully closed")
 			return nil
 		}
-		//вычисляем выражение
 		result, err := calc.Calc(text)
 		if err != nil {
-			log.Println(text, " calculation failed wit error: ", err)
+			a.logger.Printf("%s calculation failed with error: %v", text, err)
 		} else {
-			log.Println(text, "=", result)
+			a.logger.Printf("%s = %f", text, result)
 		}
 	}
 }
@@ -69,37 +65,52 @@ type Request struct {
 	Expression string `json:"expression"`
 }
 
+type Response struct {
+	Result string `json:"result,omitempty"`
+	Error  string `json:"error,omitempty"`
+}
+
 func CalcHandler(w http.ResponseWriter, r *http.Request) {
+	logger := log.New(os.Stdout, "[HTTP] ", log.Ldate|log.Ltime|log.Lshortfile)
+
 	request := new(Request)
 	defer r.Body.Close()
-	err := json.NewDecoder(r.Body).Decode(&request)
+	err := json.NewDecoder(r.Body).Decode(request)
 	if err != nil {
+		logger.Printf("Bad Request: %v", err)
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 
 	result, err := calc.Calc(request.Expression)
-	if err != nil { // обработка ошибок
+	///w.Header().Set("Content-Type", "application/json")
+	if err != nil {
+		var status int
+		var errMsg string
 		if errors.Is(err, calc.ErrInvalidExpression) {
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			fmt.Fprintf(w, "err: %s", err.Error())
+			status = http.StatusUnprocessableEntity
+			errMsg = calc.ErrInvalidExpression.Error()
 		} else if errors.Is(err, calc.ErrDivisionByZero) {
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			fmt.Fprintf(w, "err: %s", err.Error())
+			status = http.StatusUnprocessableEntity
+			errMsg = calc.ErrDivisionByZero.Error()
 		} else if errors.Is(err, calc.ErrEmptyExpression) {
-			w.WriteHeader(http.StatusUnprocessableEntity)
-			fmt.Fprintf(w, "err: %s", err.Error())
+			status = http.StatusUnprocessableEntity
+			errMsg = calc.ErrEmptyExpression.Error()
 		} else {
-			w.WriteHeader(http.StatusInternalServerError)
-			fmt.Fprintf(w, "unknown err")
+			status = http.StatusInternalServerError
+			errMsg = "unknown error"
 		}
-
+		logger.Printf("Error: %s, Status: %d, Message: %s", request.Expression, status, err)
+		w.WriteHeader(status)
+		json.NewEncoder(w).Encode(Response{Error: errMsg})
 	} else {
-		fmt.Fprintf(w, "result: %f", result)
+		logger.Printf("Successful calculation: %s = %f", request.Expression, result)
+		json.NewEncoder(w).Encode(Response{Result: fmt.Sprintf("%f", result)})
 	}
 }
 
 func (a *Application) RunServer() error {
+	a.logger.Println("Starting server on port " + a.config.Addr)
 	http.HandleFunc("/api/v1/calculate", CalcHandler)
 	return http.ListenAndServe(":"+a.config.Addr, nil)
 }

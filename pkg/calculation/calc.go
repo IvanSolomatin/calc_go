@@ -2,7 +2,6 @@ package calc
 
 import (
 	"container/list"
-	"errors"
 	"reflect"
 	"strconv"
 )
@@ -64,7 +63,7 @@ func Calc(expression string) (float64, error) {
 				stack.Remove(stack.Back())
 			}
 			if stack.Back() == nil {
-				return 0, errors.New("need (")
+				return 0, ErrInvalidExpression
 			}
 			stack.Remove(stack.Back())
 		} else if e.Value == "*" || e.Value == "/" {
