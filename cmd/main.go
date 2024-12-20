@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/IvanSolomatin/calc_go/aplication"
+	"calc_go/aplication"
 )
 
 func main() {
