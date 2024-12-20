@@ -62,9 +62,9 @@ curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: applicatio
 
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1++*2\"}" 
 
-## Для запросов можно использовать программу postman
+#### Для запросов можно использовать программу postman
 
-#### Команды для тестирования
+## Команды для тестирования
 перейдите в каталог aplication или pkg\calculation и выполните команду 
 
 go test -v
