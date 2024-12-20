@@ -26,7 +26,7 @@ go get github.com/IvanSolomatin/calc_go/internal/application
     git clone https://github.com/IvanSolomatin/calc_go
 4. Перейдите в папку проекта и запустите сервер(calc_go):
 
-    go run ./cmd/main.go
+    go run ./calc_go/cmd/main.go
     
 5. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
 

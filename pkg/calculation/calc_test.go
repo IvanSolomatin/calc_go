@@ -3,7 +3,7 @@ package calc_test
 import (
 	"testing"
 
-	"calc/pkg/calculation"
+	"calc_go/pkg/calculation"
 )
 
 func TestCalc(t *testing.T) {

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"calc/internal/application"
+	"calc_go/internal/application"
 )
 
 func main() {

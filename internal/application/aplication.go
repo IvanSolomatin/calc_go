@@ -10,7 +10,7 @@ import (
 	"os"
 	"strings"
 
-	"calc/pkg/calculation"
+	"calc_go/pkg/calculation"
 )
 
 type Config struct {

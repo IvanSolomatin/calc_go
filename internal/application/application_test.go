@@ -1,4 +1,4 @@
-package application
+package application_test
 
 import (
 	"bytes"
@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"calc/internal/application"
-	"calc/pkg/calculation"
+	"calc_go/internal/application"
+	"calc_go/pkg/calculation"
 )
 
 // структура запроса
