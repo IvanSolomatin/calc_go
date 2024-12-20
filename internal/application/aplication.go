@@ -81,12 +81,16 @@ func CalcHandler(w http.ResponseWriter, r *http.Request) {
 	result, err := calc.Calc(request.Expression)
 	if err != nil { // обработка ошибок
 		if errors.Is(err, calc.ErrInvalidExpression) {
+			w.WriteHeader(http.StatusUnprocessableEntity)
 			fmt.Fprintf(w, "err: %s", err.Error())
 		} else if errors.Is(err, calc.ErrDivisionByZero) {
+			w.WriteHeader(http.StatusUnprocessableEntity)
 			fmt.Fprintf(w, "err: %s", err.Error())
 		} else if errors.Is(err, calc.ErrEmptyExpression) {
+			w.WriteHeader(http.StatusUnprocessableEntity)
 			fmt.Fprintf(w, "err: %s", err.Error())
 		} else {
+			w.WriteHeader(http.StatusInternalServerError)
 			fmt.Fprintf(w, "unknown err")
 		}
 
