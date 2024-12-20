@@ -11,12 +11,6 @@ go get github.com/IvanSolomatin/calc_go/internal/application
 ## Описание
 Этот проект реализует веб-сервис, который вычисляет арифметические выражения, переданные пользователем через HTTP-запрос.
 
-## Структура проекта
-
-- `cmd/` — точка входа приложения.
-- `internal/application` — веб-сервис.
-- `pkg/calculation ` — вспомогательные пакеты и утилиты.
-
 
 ## Запуск
 
@@ -34,13 +28,13 @@ go get github.com/IvanSolomatin/calc_go/internal/application
 6. Сервис будет доступен по адресу: [http://localhost:8080/api/v1/calculate](http://localhost:8080/api/v1/calculate).
 
 ### Как сменить порт (для Windiws)?
-1. Для этого нужно собрать [Your_name].exe 
+1. Для этого нужно собрать calc.exe 
 2. Перейдите в папку (calc_go/cmd) проекта
 3. выполните команды
 
 go build -o calc.exe 
 
-set "PORT=8087" & "main.exe" (в примере порт = 8087)
+set "PORT=8087" & "calc.exe" (в примере порт = 8087)
 
 ## Эндпоинты
 ### `POST /api/v1/calculate`
@@ -62,14 +56,16 @@ curl --location 'localhost:8080/api/v1/calculate' \
   "expression": "2+2*2"
 }'
 
+Пример запроса с пустым выражением, код: 422, ошибка:empty expression
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"\"}" 
-(пример запроса с пустым выражением, код: 422, ошибка:empty expression)
 
+Пример запроса с делением на 0, код: 422, ошибка:division by zero
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1/0\"}" 
-(пример запроса с делением на 0, код: 422, ошибка:division by zero)
 
+Пример запроса с неверным выражением, код: 422, ошибка:invalid expression
 curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\"expression\": \"1++*2\"}" 
-(пример запроса с неверным выражением, код: 422, ошибка:invalid expression)
+
+
 
 #### Команды для тестирования
 перейдите в каталог aplication или pkg\calculation и выполните команду 
