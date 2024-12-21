@@ -39,7 +39,7 @@ set "PORT=8087" & "calc.exe" (в примере порт = 8087)
 #### Пример запроса с использованием curl
 пример для cmd
 
-curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\\"expression\": \\"1\\"}" 
+curl -X POST http://localhost:8080/api/v1/calculate -H "Content-Type: application/json" -d "{\\"expression\\": \\"1\\"}" 
 (пример корректного запроса, код:200)
 
 git bash
